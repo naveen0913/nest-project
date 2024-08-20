@@ -1,4 +1,4 @@
-import { Body, ConflictException, Controller, Delete, Get, HttpCode, HttpStatus, Param, ParseIntPipe, Post, Put, Req, Res, UseGuards } from '@nestjs/common';
+import { Body, ConflictException, Controller, Delete, Get, HttpCode, HttpStatus, Param, ParseIntPipe, Post, Put, Req, Res, UseGuards, ValidationPipe,UsePipes } from '@nestjs/common';
 import { UserService } from './user.service';
 import { SignUPDto } from 'src/DTOs/signUpDto';
 import { LoginDto } from 'src/DTOs/loginDto';
@@ -16,6 +16,11 @@ export class UserController {
     constructor(private readonly userService: UserService) { }
 
     @Post("signup")
+    @UsePipes(new ValidationPipe({
+        whitelist: true,
+        forbidNonWhitelisted: true,
+        transform: true,
+    }))
     async userSignUp(@Body() signUpDto: SignUPDto): Promise<{ code: number, message: string }> {
         try {
             await this.userService.createUser(signUpDto);
@@ -35,6 +40,11 @@ export class UserController {
     }
 
     @Post("login")
+    @UsePipes(new ValidationPipe({
+        whitelist: true,
+        forbidNonWhitelisted: true,
+        transform: true,
+    }))
     @HttpCode(HttpStatus.OK)
     async userLogin(@Body() loginDto: LoginDto): Promise<{ code: number, token: string, expiresIn: number }> {
         const { token, expiresIn } = await this.userService.userLogin(loginDto);
@@ -73,7 +83,6 @@ export class UserController {
     }
 
     @Put('update/:id')
-    // @UseGuards(UserGuard)
     @HttpCode(HttpStatus.OK)
     async updateUser(@Param('id', ParseIntPipe) id: number, @Body() updateDto: updateDto): Promise<any> {
         await this.userService.updateUser(id, updateDto);
