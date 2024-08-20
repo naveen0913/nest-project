@@ -5,7 +5,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { UserModule } from './user/user.module';
 import { JwtModule } from '@nestjs/jwt';
-import { APP_GUARD } from '@nestjs/core';
 
 @Module({
   imports: [
@@ -20,13 +19,14 @@ import { APP_GUARD } from '@nestjs/core';
         password: configService.get<string>('DB_PASSWORD'),
         database: configService.get<string>('DB_NAME'),
         autoLoadEntities: true,
+        entities: ['**/entity/*.entity.ts'],
         synchronize: true,
       }),
       inject: [ConfigService]
     }),
     JwtModule.register({
-      secret: process.env.JWT_SECRET, // Use the secret key from environment variables
-      signOptions: { expiresIn: '2m' }, // Token expiration
+      secret: process.env.JWT_SECRET, 
+      signOptions: { expiresIn: '2m' },
     }),
     UserModule,
 

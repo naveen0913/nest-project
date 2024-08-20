@@ -45,25 +45,6 @@ export class UserController {
         };
     }
 
-    // @Get('get')
-    // @UseGuards(UserGuard)
-    // @HttpCode(HttpStatus.OK)
-    // async getAuthenticatedUser(@Req() request: Request, @Res() response: Response): Promise<any> {
-    //     try {
-    //         const user = await this.userService.authenticateUser(request);
-    //         return response.status(HttpStatus.OK).json({
-    //             code: HttpStatus.OK,
-    //             message: 'Login Successful',
-    //             user: user
-    //         });
-    //     } catch (error) {
-    //         return response.status(HttpStatus.UNAUTHORIZED).json({
-    //             statusCode: HttpStatus.UNAUTHORIZED,
-    //             message: error.message,
-    //         });
-    //     }
-    // }
-
     @Get('get')
     @UseGuards(UserGuard)
     @HttpCode(HttpStatus.OK)
@@ -107,11 +88,16 @@ export class UserController {
     @Delete('delete/:id')
     @HttpCode(HttpStatus.OK)
     async deleteUser(@Param('id', ParseIntPipe) id: number): Promise<any> {
-        await  this.userService.deleteUser(id);
+        await this.userService.deleteUser(id);
         return {
             code: HttpStatus.OK,
             message: 'deleted',
         }
+    }
+
+    @Get()
+    getllUsers() {
+        return this.userService.findAll();
     }
 
 }

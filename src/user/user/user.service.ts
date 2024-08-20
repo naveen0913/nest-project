@@ -1,6 +1,6 @@
 import { ConflictException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { User } from '../userEntity';
+import { User } from '../user.entity';
 import { Repository } from 'typeorm';
 import { SignUPDto } from 'src/DTOs/signUpDto';
 import { LoginDto } from 'src/DTOs/loginDto';
@@ -88,5 +88,9 @@ export class UserService {
         if (result.affected === 0) {
             throw new NotFoundException("User not found by ID");
         }
+    }
+
+    async findAll() {
+        return await this.userRepository.find();
     }
 }
