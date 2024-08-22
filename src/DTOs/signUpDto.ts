@@ -1,10 +1,10 @@
-import { IsEmail, IsNotEmpty, IsString, Min } from "class-validator";
+import { IsEmail, IsNotEmpty, IsString, MinLength } from "class-validator";
 
 export class SignUPDto{
     
     @IsString()
     @IsNotEmpty()
-    @Min(3)
+    @MinLength(3, { message: 'Username must be at least 3 characters' })
     userName:string;
 
     @IsEmail()
@@ -13,6 +13,6 @@ export class SignUPDto{
     
     @IsString()
     @IsNotEmpty()
-    @Min(5)
+    @MinLength(5, { message: 'Password must be at least 5 characters' })
     password:string
 }
