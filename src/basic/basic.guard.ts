@@ -17,7 +17,7 @@ export class BasicGuard implements CanActivate {
     if (credentials && credentials.name === this.validUsername && credentials.pass === this.validPassword) {
       return true;
     } else {
-      throw new UnauthorizedException('Invalid credentials');
+      throw new UnauthorizedException('Invalid User Details');
     }
 
   }

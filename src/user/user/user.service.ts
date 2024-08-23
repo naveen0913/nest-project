@@ -39,7 +39,7 @@ export class UserService {
         const existedUser = await this.userRepository.findOne({ where: { email } });
 
         if (!existedUser) {
-            throw new UnauthorizedException('Invalid credentials');
+            throw new UnauthorizedException('User not found by email');
         }
 
 
