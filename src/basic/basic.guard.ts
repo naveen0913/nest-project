@@ -5,8 +5,6 @@ import { Observable } from 'rxjs';
 
 @Injectable()
 export class BasicGuard implements CanActivate {
-  // private readonly validUsername = 'admin';
-  //   private readonly validPassword = 'password';
   private readonly validUsername = process.env.BASIC_AUTH_USERNAME;
   private readonly validPassword = process.env.BASIC_AUTH_PASSWORD;
   canActivate(
