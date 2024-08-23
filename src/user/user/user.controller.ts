@@ -5,6 +5,7 @@ import { LoginDto } from 'src/DTOs/loginDto';
 import { Request, Response } from 'express';
 import { UserGuard } from '../user.guard';
 import { updateDto } from 'src/DTOs/updateDto';
+import { BasicGuard } from 'src/basic/basic.guard';
 
 interface CustomRequest extends Request {
     user?: any;
@@ -16,6 +17,7 @@ export class UserController {
     constructor(private readonly userService: UserService) { }
 
     @Post("signup")
+    @UseGuards(BasicGuard)
     @UsePipes(new ValidationPipe({
         whitelist: true,
         forbidNonWhitelisted: true,
@@ -40,6 +42,7 @@ export class UserController {
     }
 
     @Post("login")
+    @UseGuards(BasicGuard)
     @UsePipes(new ValidationPipe({
         whitelist: true,
         forbidNonWhitelisted: true,
@@ -76,6 +79,7 @@ export class UserController {
     }
 
     @Get(':id')
+    @UseGuards(BasicGuard)
     @HttpCode(HttpStatus.OK)
     async getUserById(@Param('id', ParseIntPipe) id: number): Promise<any> {
         return this.userService.getUserById(id);
@@ -83,6 +87,7 @@ export class UserController {
     }
 
     @Put('update/:id')
+    @UseGuards(BasicGuard)
     @HttpCode(HttpStatus.OK)
     async updateUser(@Param('id', ParseIntPipe) id: number, @Body() updateDto: updateDto): Promise<any> {
         await this.userService.updateUser(id, updateDto);
@@ -95,6 +100,7 @@ export class UserController {
     }
 
     @Delete('delete/:id')
+    @UseGuards(BasicGuard)
     @HttpCode(HttpStatus.OK)
     async deleteUser(@Param('id', ParseIntPipe) id: number): Promise<any> {
         await this.userService.deleteUser(id);
@@ -105,6 +111,7 @@ export class UserController {
     }
 
     @Get()
+    @UseGuards(BasicGuard)
     getllUsers() {
         return this.userService.findAll();
     }

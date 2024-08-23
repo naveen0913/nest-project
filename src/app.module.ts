@@ -5,6 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { UserModule } from './user/user.module';
 import { JwtModule } from '@nestjs/jwt';
+import { BasicGuard } from './basic/basic.guard';
 
 @Module({
   imports: [
@@ -32,6 +33,6 @@ import { JwtModule } from '@nestjs/jwt';
 
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService,BasicGuard],
 })
 export class AppModule { }
